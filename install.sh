@@ -53,12 +53,12 @@ yum install -y php php-opcache php-common php-fpm php-gd php-mbstring php-mcrypt
 echo 'Creating needed directories and bak files'
 echo "-----------------------------------------------------------"
 # Create additional dir
-sudo mkdir -p /var/www/$docroot/logs >> $LOG 2>&1
-sudo mkdir -p /var/www/$docroot >> $LOG 2>&1
-sudo mkdir -p /var/log/php >> $LOG 2>&1
+sudo mkdir -p /var/www/logs >> $LOG 2>&1
+sudo mkdir -p /var/www/html/$docroot >> $LOG 2>&1
+sudo mkdir -p /var/logs/php >> $LOG 2>&1
 sudo mkdir -p /etc/httpd/sites-available >> $LOG 2>&1
 sudo mkdir -p /etc/httpd/sites-enabled >> $LOG 2>&1
-sudo chown apache /var/log/php >> $LOG 2>&1
+sudo chown apache /var/logs/php >> $LOG 2>&1
 cp /etc/httpd/conf/httpd.conf ~/httpd.conf.backup >> $LOG 2>&1
 
 echo "Creating HTTPD config files"
@@ -95,7 +95,7 @@ echo "Modifying config files"
 echo 
 # Edit php.ini and httpd.conf files
 sed -i 's/error_reporting =.*/error_reporting = E_COMPILE_ERROR|E_RECOVERABLE_ERROR|E_ERROR|E_CORE_ERROR/' /etc/php.ini
-echo "error_log = /var/log/php/error.log/" >> /etc/php.ini
+echo "error_log = /var/logs/php/error.log/" >> /etc/php.ini
 sed -i 's/max_input_time = 60.*/max_input_time = 30/g' /etc/php.ini
 
 echo "Installing IonCube Loader"
