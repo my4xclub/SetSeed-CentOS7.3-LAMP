@@ -164,7 +164,15 @@ SSLEngine on
 SSLCertificateFile    /etc/letsencrypt/live/$servname/cert.pem
 SSLCertificateKeyFile /etc/letsencrypt/live/$servname/privkey.pem
 SSLCertificateChainFile /etc/letsencrypt/live/$servname/fullchain.pem
+
+# HSTS (mod_headers is required) (15768000 seconds = 6 months)
+    Header always set Strict-Transport-Security "max-age=15768000"
 </VirtualHost>
+
+# intermediate configuration, tweak to your needs
+SSLProtocol             all -SSLv2 -SSLv3 -TLSv1 -TLSv1.1
+SSLCipherSuite          ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
+SSLHonorCipherOrder     on
 EOF
 
 echo "ReCreating Virtual Host symbolic links."
