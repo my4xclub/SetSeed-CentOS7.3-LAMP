@@ -10,7 +10,7 @@ read -p "Enter docroot (e.g. setseed) : " docroot
 read -p "Enter time zone (e.g. America/New_York) : " time
 
 setenforce 0 >> /dev/null 2>&1
-LOG=/root/virtualizor-pdns.log
+LOG=/root/installation.log
 
 			
 echo "************************************************************"
@@ -181,7 +181,7 @@ echo ""
 sudo mv /etc/httpd/sites-enabled/$servname.conf /etc/httpd/sites-available/$servname.conf >> $LOG 2>&1
 sudo ln -s /etc/httpd/sites-available/$servname.conf /etc/httpd/sites-enabled/$servname.conf >> $LOG 2>&1
 
-echo "Securing Centos 7.2"
+echo "Securing Centos 7.3"
 echo ""
 # Secure the OS
 
