@@ -4,8 +4,8 @@ clear
 # Parse command line options.
 
 read -p "Enter server admin email (e.g. admin@example.com) : " email
-read -p "Enter servername (e.g. www.example.com) : " servname
-read -p "Enter server alias (e.g. preview.example.com) : " alias
+read -p "Enter servername (e.g. example.com) : " servname
+read -p "Enter server alias (e.g. www.example.com) : " alias
 read -p "Enter docroot (e.g. setseed) : " docroot
 read -p "Enter time zone (e.g. America/New_York) : " time
 
@@ -54,7 +54,7 @@ echo 'Creating needed directories and bak files'
 echo "-----------------------------------------------------------"
 # Create additional dir
 sudo mkdir -p /var/www/logs >> $LOG 2>&1
-sudo mkdir -p /var/www/html/$docroot >> $LOG 2>&1
+sudo mkdir -p /var/www/$docroot/public_html >> $LOG 2>&1
 sudo mkdir -p /var/logs/php >> $LOG 2>&1
 sudo mkdir -p /etc/httpd/sites-available >> $LOG 2>&1
 sudo mkdir -p /etc/httpd/sites-enabled >> $LOG 2>&1
@@ -67,13 +67,13 @@ cat >>/etc/httpd/sites-enabled/$servname.conf<<EOF
 NameVirtualHost *:80
 <VirtualHost *:80>
     ServerAdmin $email
-	DocumentRoot "/var/www/html/$docroot/"
+	DocumentRoot "/var/www/$docroot/public_html/"
     ServerName $servname
     ServerAlias $alias
 	ErrorLog /var/www/logs/error.log
     CustomLog /var/www/logs/access.log combined
 	
-	<Directory "/var/www/html/$docroot/">
+	<Directory "/var/www/$docroot/public_html/">
     DirectoryIndex index.php
 	Options FollowSymLinks
 	Require all granted
@@ -117,7 +117,7 @@ echo "Installing certbot"
 echo 
 # Install certbot for SSL
 sudo yum install -y python-certbot-apache >> $LOG 2>&1
-certbot certonly --email $email --webroot -w /var/www/html/$docroot -d $servname -d $alias
+certbot certonly --email $email --webroot -w /var/www/$docroot/public_html -d $servname -d $alias
 echo "Setting Certbot to autorenew"
 echo 
 # Setup autorenew
@@ -132,13 +132,13 @@ cat >>/etc/httpd/sites-enabled/$servname.conf<<EOF
 NameVirtualHost *:80
 <VirtualHost *:80>
     ServerAdmin $email
-	DocumentRoot "/var/www/html/$docroot/"
+	DocumentRoot "/var/www/$docroot/public_html/"
     ServerName $servname
     ServerAlias $alias
 	ErrorLog /var/www/logs/error.log
     CustomLog /var/www/logs/access.log combined
 	
-	<Directory "/var/www/html/$docroot/">
+	<Directory "/var/www/$docroot/public_html/">
     DirectoryIndex index.php
 	Options FollowSymLinks
 	Require all granted
@@ -148,13 +148,13 @@ NameVirtualHost *:80
 NameVirtualHost *:443
 <VirtualHost *:443>
  ServerAdmin $email
-	DocumentRoot "/var/www/html/$docroot/"
+	DocumentRoot "/var/www/$docroot/public_html/"
     ServerName $servname
     ServerAlias $alias
 	ErrorLog /var/www/logs/error.log
     CustomLog /var/www/logs/access.log combined
 	
-	<Directory "/var/www/html/$docroot/">
+	<Directory "/var/www/$docroot/public_html/">
     DirectoryIndex index.php
 	Options FollowSymLinks
 	Require all granted
