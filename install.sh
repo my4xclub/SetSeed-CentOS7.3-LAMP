@@ -3,13 +3,13 @@ clear
 
 # Parse command line options.
 
-read -p "Enter server admin email (e.g. admin@example.com) : " email
-read -p "Enter servername (e.g. example.com) : " servname
-read -p "Enter server alias (e.g. www.example.com) : " alias
-read -p "Enter docroot (e.g. setseed) : " docroot
-read -p "Enter time zone (e.g. America/New_York) : " time
+sudo read -p "Enter server admin email (e.g. admin@example.com) : " email
+sudo read -p "Enter servername (e.g. example.com) : " servname
+sudo read -p "Enter server alias (e.g. www.example.com) : " alias
+sudo read -p "Enter docroot (e.g. setseed) : " docroot
+sudo read -p "Enter time zone (e.g. America/New_York) : " time
 
-setenforce 0 >> /dev/null 2>&1
+sudo setenforce 0 >> /dev/null 2>&1
 LOG=/root/installation.log
 
 			
@@ -22,10 +22,10 @@ echo "*************************************************************"
 #-------------------------------------------------------------------------------------------------------------------------------------
 echo 'Installing additional Repos'
 echo "-----------------------------------------------------------"
-yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm >> $LOG 2>&1
-yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm >> $LOG 2>&1
-yum install -y yum-utils >> $LOG 2>&1
-yum-config-manager --enable remi-php56 -y >> $LOG 2>&1
+sudo yum install -y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm >> $LOG 2>&1
+sudo yum install -y http://rpms.remirepo.net/enterprise/remi-release-7.rpm >> $LOG 2>&1
+sudo yum install -y yum-utils >> $LOG 2>&1
+sudo yum-config-manager --enable remi-php56 -y >> $LOG 2>&1
 cat >>/etc/yum.repos.d/MariaDB.repo<<EOF
 [mariadb]
 name = MariaDB
